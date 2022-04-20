@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mapbox_navigation/screens/restaurants_map.dart';
 import 'package:mapbox_navigation/screens/restaurants_table.dart';
+import 'package:mapbox_navigation/screens/qr_codes.dart';
+import 'package:mapbox_navigation/screens/qr_code_files/scan.dart';
 
 class HomeManagement extends StatefulWidget {
   const HomeManagement({Key? key}) : super(key: key);
@@ -12,7 +14,8 @@ class HomeManagement extends StatefulWidget {
 class _HomeManagementState extends State<HomeManagement> {
   final List<Widget> _pages = [
     const RestaurantsMap(),
-    const RestaurantsTable()
+    const RestaurantsTable(),
+    const ScanPage(),
   ];
   int _index = 0;
 
@@ -32,6 +35,8 @@ class _HomeManagementState extends State<HomeManagement> {
               icon: Icon(Icons.map), label: 'Restaurant Maps'),
           BottomNavigationBarItem(
               icon: Icon(Icons.fastfood), label: 'Restaurants Table'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.qr_code), label: 'QR Codes'),
         ],
       ),
     );

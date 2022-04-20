@@ -20,4 +20,15 @@ List<Map> restaurants = [
       'longitude': '-8.64836730215535',
     },
   },
+  {
+    'id': '0',
+    'name': 'Ceboleiros',
+    'items': 'Hamburguer, Sandes, Francesinha, Snacks',
+    'image':
+        'https://www.ceboleiros.com/imgs/logoWhite.png',
+    'coordinates': {
+      'latitude': '40.63358670364584',
+      'longitude': '-8.647931086711022',
+    },
+  },
 ];
