@@ -1,5 +1,6 @@
 import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ScanPage extends StatefulWidget {
   const ScanPage({ Key? key }) : super(key: key);
@@ -10,12 +11,13 @@ class ScanPage extends StatefulWidget {
 
 class _ScanPageState extends State<ScanPage> {
   String qrCodeResult = "Not Yet Scanned";
+  bool bol = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Scanner"),
-        centerTitle: true,
+        centerTitle: false,
       ),
       body: Container(
         padding: EdgeInsets.all(20.0),
@@ -38,14 +40,13 @@ class _ScanPageState extends State<ScanPage> {
             SizedBox(
               height: 20.0,
             ),
-            TextButton(
-              style: ButtonStyle(
-              ),
+            OutlinedButton(
               onPressed: () async {
                 ScanResult codeSanner = await BarcodeScanner.scan();    //barcode scnner
                 setState(() {
                   qrCodeResult = codeSanner.rawContent;
                 });
+                bol=true;
 
                 // try{
                 //   BarcodeScanner.scan()    this method is used to scan the QR code
@@ -61,7 +62,23 @@ class _ScanPageState extends State<ScanPage> {
                 style:
                     TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
               ),
-            )
+            ),
+            SizedBox(height: 20,),
+            bol ? OutlinedButton(
+              onPressed: () async {
+                if (await canLaunch(qrCodeResult)) {
+                  await launch(qrCodeResult);
+                } else {
+                  throw 'Could not launch $qrCodeResult';
+                }
+              }, child: Text(
+                "Go to URL",
+                style:
+                    TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
+              ),
+            ) : Center(child: Text(
+              "No results yet!", textAlign: TextAlign.center,
+            ),),
           ],
         ),
       ),

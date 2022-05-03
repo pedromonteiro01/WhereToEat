@@ -25,10 +25,10 @@ class _SplashState extends State<Splash> {
 
   void initializeLocationAndSave() async {
     // Ensure all permissions are collected for Locations
-    //Location _location = Location();
+    Location _location = Location();
     bool? _serviceEnabled;
     PermissionStatus? _permissionGranted;
-    /*
+    
     _serviceEnabled = await _location.serviceEnabled();
     if (!_serviceEnabled) {
       _serviceEnabled = await _location.requestService();
@@ -37,16 +37,17 @@ class _SplashState extends State<Splash> {
     _permissionGranted = await _location.hasPermission();
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await _location.requestPermission();
-    }*/
+    }
 
     // Get capture the current user location
-    //LocationData _locationData = await _location.getLocation();
+    LocationData _locationData = await _location.getLocation();
     LatLng currentLatLng =
-        LatLng(40.633067, -8.658986);
+        LatLng(_locationData.latitude!, _locationData.longitude!);
+        //LatLng(40.633067, -8.658986);
 
     // Store the user location in sharedPreferences
-    sharedPreferences.setDouble('latitude', currentLatLng.latitude);
-    sharedPreferences.setDouble('longitude', currentLatLng.longitude);
+    sharedPreferences.setDouble('latitude', _locationData.latitude!);
+    sharedPreferences.setDouble('longitude', _locationData.longitude!);
 
     // Get and store the directions API response in sharedPreferences
     for (int i = 0; i < restaurants.length; i++) {
