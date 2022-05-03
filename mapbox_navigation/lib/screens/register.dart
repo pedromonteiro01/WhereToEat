@@ -38,15 +38,15 @@ class _RegisterPageState extends State<RegisterPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   fieldTitle("Username"),
-                  customField("Enter your username", idController, false, true),
+                  usernameField("Enter your username", idController, false),
                   fieldTitle("Email"),
-                  customField("Enter your email", idController, false, true),
+                  emailField("Enter your email", idController, false),
                   fieldTitle("Password"),
-                  customField("Enter your phone", passController, false, true),
+                  phoneField("Enter your phone", passController, false),
                   fieldTitle("Confirm your phone"),
-                  customField("Enter your password", passController, true, false),
+                  passwordField("Enter your password", passController, true),
                   fieldTitle("Confirm Password"),
-                  customField("Confirm your password", passController, true, false),
+                  confirmPasswordField("Confirm your password", passController, true),
                   TextButton(
                     onPressed: (){
                       //Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
@@ -94,7 +94,7 @@ Widget fieldTitle(String title){
   ); //Container
 }
 
-Widget customField(String hint, TextEditingController controller, bool obscure, bool isClearText){
+Widget usernameField(String hint, TextEditingController controller, bool obscure){
   bool flag = false;
   return Container(
                   width: screenWidth,
@@ -114,8 +114,7 @@ Widget customField(String hint, TextEditingController controller, bool obscure, 
                     children: [
                       Container(
                         width: screenWidth / 6,
-                        child: Icon(
-                          isClearText ? Icons.person : Icons.lock,
+                        child: Icon(Icons.person,
                           color: primary,
                           size: screenWidth / 15,
                         ),//Icon
@@ -123,14 +122,7 @@ Widget customField(String hint, TextEditingController controller, bool obscure, 
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.only(right: screenWidth / 12),
-                          child: TextFormField(
-                              validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                flag = true;
-                                return 'Please enter some text';
-                              }
-                              return null;
-                            },
+                          child: TextField(
                           controller: controller,
                           enableSuggestions: false,
                           autocorrect: false,
@@ -144,6 +136,221 @@ Widget customField(String hint, TextEditingController controller, bool obscure, 
                           ), //inputDecoration
                           maxLines: 1,
                           obscureText: obscure,
+                          style: TextStyle(
+                            color: Colors.black
+                          ),
+                      ),//TextFormField), //Expanded
+                        ), //Padding
+                      )
+                    ],
+                  ), //ROW
+                ); //Container
+}
+
+Widget phoneField(String hint, TextEditingController controller, bool obscure){
+  bool flag = false;
+  return Container(
+                  width: screenWidth,
+                  margin: EdgeInsets.only(bottom: 12),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 10,
+                        offset: Offset(2, 2),
+                      ) //BoxShadow
+                    ]
+                  ),//BoxDecoration
+                  child: Row(
+                    children: [
+                      Container(
+                        width: screenWidth / 6,
+                        child: Icon(Icons.phone,
+                          color: primary,
+                          size: screenWidth / 15,
+                        ),//Icon
+                      ), //Container
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(right: screenWidth / 12),
+                          child: TextField(
+                          controller: controller,
+                          enableSuggestions: false,
+                          autocorrect: false,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: screenHeight / 35,
+                            ),
+                            border: InputBorder.none,
+                            hintText: hint,
+                            hintStyle: TextStyle(color: Colors.black),
+                          ), //inputDecoration
+                          maxLines: 1,
+                          obscureText: obscure,
+                          style: TextStyle(
+                            color: Colors.black
+                          ),
+                      ),//TextFormField), //Expanded
+                        ), //Padding
+                      )
+                    ],
+                  ), //ROW
+                ); //Container
+}
+
+Widget emailField(String hint, TextEditingController controller, bool obscure){
+  bool flag = false;
+  return Container(
+                  width: screenWidth,
+                  margin: EdgeInsets.only(bottom: 12),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 10,
+                        offset: Offset(2, 2),
+                      ) //BoxShadow
+                    ]
+                  ),//BoxDecoration
+                  child: Row(
+                    children: [
+                      Container(
+                        width: screenWidth / 6,
+                        child: Icon(Icons.email,
+                          color: primary,
+                          size: screenWidth / 15,
+                        ),//Icon
+                      ), //Container
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(right: screenWidth / 12),
+                          child: TextField(
+                          controller: controller,
+                          enableSuggestions: false,
+                          autocorrect: false,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: screenHeight / 35,
+                            ),
+                            border: InputBorder.none,
+                            hintText: hint,
+                            hintStyle: TextStyle(color: Colors.black),
+                          ), //inputDecoration
+                          maxLines: 1,
+                          obscureText: obscure,
+                          style: TextStyle(
+                            color: Colors.black
+                          ),
+                      ),//TextFormField), //Expanded
+                        ), //Padding
+                      )
+                    ],
+                  ), //ROW
+                ); //Container
+}
+
+Widget passwordField(String hint, TextEditingController controller, bool obscure){
+  bool flag = false;
+  return Container(
+                  width: screenWidth,
+                  margin: EdgeInsets.only(bottom: 12),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 10,
+                        offset: Offset(2, 2),
+                      ) //BoxShadow
+                    ]
+                  ),//BoxDecoration
+                  child: Row(
+                    children: [
+                      Container(
+                        width: screenWidth / 6,
+                        child: Icon(Icons.lock,
+                          color: primary,
+                          size: screenWidth / 15,
+                        ),//Icon
+                      ), //Container
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(right: screenWidth / 12),
+                          child: TextField(
+                          controller: controller,
+                          enableSuggestions: false,
+                          autocorrect: false,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: screenHeight / 35,
+                            ),
+                            border: InputBorder.none,
+                            hintText: hint,
+                            hintStyle: TextStyle(color: Colors.black),
+                          ), //inputDecoration
+                          maxLines: 1,
+                          obscureText: obscure,
+                          style: TextStyle(
+                            color: Colors.black
+                          ),
+                      ),//TextFormField), //Expanded
+                        ), //Padding
+                      )
+                    ],
+                  ), //ROW
+                ); //Container
+}
+
+Widget confirmPasswordField(String hint, TextEditingController controller, bool obscure){
+  bool flag = false;
+  return Container(
+                  width: screenWidth,
+                  margin: EdgeInsets.only(bottom: 12),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 10,
+                        offset: Offset(2, 2),
+                      ) //BoxShadow
+                    ]
+                  ),//BoxDecoration
+                  child: Row(
+                    children: [
+                      Container(
+                        width: screenWidth / 6,
+                        child: Icon(Icons.lock,
+                          color: primary,
+                          size: screenWidth / 15,
+                        ),//Icon
+                      ), //Container
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(right: screenWidth / 12),
+                          child: TextField(
+                          controller: controller,
+                          enableSuggestions: false,
+                          autocorrect: false,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: screenHeight / 35,
+                            ),
+                            border: InputBorder.none,
+                            hintText: hint,
+                            hintStyle: TextStyle(color: Colors.black),
+                          ), //inputDecoration
+                          maxLines: 1,
+                          obscureText: obscure,
+                          style: TextStyle(
+                            color: Colors.black
+                          ),
                       ),//TextFormField), //Expanded
                         ), //Padding
                       )
