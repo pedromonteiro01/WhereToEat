@@ -25,6 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [Container(
@@ -82,7 +83,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text("Not registered?"),
+                              Text("Not registered?",  style: TextStyle(
+                                color: Colors.black,
+                              ),),
                               TextButton(onPressed: () {
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => const RegisterPage()));
                               }, 
@@ -113,6 +116,7 @@ Widget fieldTitle(String title){
 }
 
 Widget customField(String hint, TextEditingController controller, bool obscure, bool isClearText){
+  bool flag = false;
   return Container(
                   width: screenWidth,
                   margin: EdgeInsets.only(bottom: 12),
@@ -141,6 +145,13 @@ Widget customField(String hint, TextEditingController controller, bool obscure, 
                         child: Padding(
                           padding: EdgeInsets.only(right: screenWidth / 12),
                           child: TextFormField(
+                          validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                flag = true;
+                                return 'Please enter some text';
+                              }
+                              return null;
+                            },
                           controller: controller,
                           enableSuggestions: false,
                           autocorrect: false,
@@ -149,7 +160,8 @@ Widget customField(String hint, TextEditingController controller, bool obscure, 
                               vertical: screenHeight / 35,
                             ),
                             border: InputBorder.none,
-                            hintText: hint
+                            hintText: hint,
+                            hintStyle: TextStyle(color: Colors.black),
                           ), //inputDecoration
                           maxLines: 1,
                           obscureText: obscure,
