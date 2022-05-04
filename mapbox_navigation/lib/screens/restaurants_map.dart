@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:mapbox_navigation/helpers/commons.dart';
+import 'package:flutter/foundation.dart';
 
 import '../constants/restaurants.dart';
 import '../helpers/shared_prefs.dart';
 import '../widgets/carousel_card.dart';
 
 class RestaurantsMap extends StatefulWidget {
-  const RestaurantsMap({Key? key}) : super(key: key);
+  final String name;
+
+  const RestaurantsMap({Key? key, required this.name}) : super(key: key);
 
   @override
   State<RestaurantsMap> createState() => _RestaurantsMapState();
@@ -20,13 +23,14 @@ class _RestaurantsMapState extends State<RestaurantsMap> {
   LatLng latLng = getLatLngFromSharedPrefs();
   late CameraPosition _initialCameraPosition;
   late MapboxMapController controller;
-  late List<CameraPosition> _kRestaurantsList;
+  List<CameraPosition> _kRestaurantsList = [];
   List<Map> carouselData = [];
+  List<Widget> carouselItems = [];
+  var counter = 0;
 
   // Carousel related
   int pageIndex = 0;
   bool accessed = false;
-  late List<Widget> carouselItems;
 
   @override
   void initState() {
@@ -38,22 +42,33 @@ class _RestaurantsMapState extends State<RestaurantsMap> {
       num distance = getDistanceFromSharedPrefs(index) / 1000;
       num duration = getDurationFromSharedPrefs(index) / 60;
       carouselData
-          .add({'index': index, 'distance': distance, 'duration': duration});
+          .add({'index': index, 'distance': distance, 'duration': duration, 'name': restaurants[index]['name']});
     }
-    carouselData.sort((a, b) => a['duration'] < b['duration'] ? 0 : 1);
+    //carouselData.sort((a, b) => a['duration'] < b['duration'] ? 0 : 1);
+
+    debugPrint('CAROUSELDATA: $carouselData');
+
+    for (int i=0; i<carouselData.length; i++){
+      if (widget.name == carouselData[i]['name']){
+        pageIndex = carouselData[i]['index'];
+      }
+    }
+    debugPrint('PAGEINDEX: $pageIndex');
 
     // Generate the list of carousel widgets
-    carouselItems = List<Widget>.generate(
-        restaurants.length,
-        (index) => carouselCard(carouselData[index]['index'],
-            carouselData[index]['distance'], carouselData[index]['duration']));
+    for(int i=0; i<carouselData.length; i++){
+      carouselItems.add(carouselCard(carouselData[i]['index'],
+            carouselData[i]['distance'], carouselData[i]['duration']));
+      debugPrint('CAROUSELITEMS: ${carouselData[i]['index']}, ${carouselData[i]['name']}');
+    }
 
     // initialize map symbols in the same order as carousel widgets
-    _kRestaurantsList = List<CameraPosition>.generate(
-        restaurants.length,
-        (index) => CameraPosition(
-            target: getLatLngFromRestaurantData(carouselData[index]['index']),
-            zoom: 15));
+    for(int i=0; i<carouselData.length; i++){
+      _kRestaurantsList.add(CameraPosition(
+        target: getLatLngFromRestaurantData(carouselData[i]['index']), 
+        zoom: 15));
+        debugPrint('LIST: $_kRestaurantsList');
+    }
   }
 
   _addSourceAndLineLayer(int index, bool removeLayer) async {
@@ -63,6 +78,7 @@ class _RestaurantsMapState extends State<RestaurantsMap> {
 
     // Add a polyLine between source and destination
     Map geometry = getGeometryFromSharedPrefs(carouselData[index]['index']);
+    debugPrint('POLYLINE: idx: $index , ${carouselData[index]['index']}, ${carouselData[index]['name']}');
     final _fills = {
       "type": "FeatureCollection",
       "features": [
@@ -109,7 +125,7 @@ class _RestaurantsMapState extends State<RestaurantsMap> {
         ),
       );
     }
-    _addSourceAndLineLayer(0, false);
+    _addSourceAndLineLayer(pageIndex, false);
   }
 
   @override
@@ -117,6 +133,7 @@ class _RestaurantsMapState extends State<RestaurantsMap> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Restaurants Map'),
+        automaticallyImplyLeading: false,
       ),
       body: SafeArea(
         child: Stack(
@@ -138,15 +155,16 @@ class _RestaurantsMapState extends State<RestaurantsMap> {
               options: CarouselOptions(
                 height: 100,
                 viewportFraction: 0.6,
-                initialPage: 0,
+                initialPage: pageIndex,
                 enableInfiniteScroll: false,
                 scrollDirection: Axis.horizontal,
                 onPageChanged:
                     (int index, CarouselPageChangedReason reason) async {
                   setState(() {
                     pageIndex = index;
+                    debugPrint('CAROUSELINDEX: $index');
                   });
-                  _addSourceAndLineLayer(index, true);
+                  _addSourceAndLineLayer(pageIndex, true);
                 },
               ),
             ),

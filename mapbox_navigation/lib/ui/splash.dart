@@ -55,7 +55,7 @@ class _SplashState extends State<Splash> {
       saveDirectionsAPIResponse(i, json.encode(modifiedResponse));
     }
 
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => HomeManagement()));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => HomeManagement(res_name: 'start',)));
   }
 
   @override

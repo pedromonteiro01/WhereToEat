@@ -18,6 +18,7 @@ class _ScanPageState extends State<ScanPage> {
       appBar: AppBar(
         title: Text("Scanner"),
         centerTitle: false,
+        automaticallyImplyLeading: false,
       ),
       body: Container(
         padding: EdgeInsets.all(20.0),
@@ -45,8 +46,8 @@ class _ScanPageState extends State<ScanPage> {
                 ScanResult codeSanner = await BarcodeScanner.scan();    //barcode scnner
                 setState(() {
                   qrCodeResult = codeSanner.rawContent;
+                  bol=true;
                 });
-                bol=true;
 
                 // try{
                 //   BarcodeScanner.scan()    this method is used to scan the QR code

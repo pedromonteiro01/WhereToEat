@@ -8,6 +8,7 @@ List<Map> restaurants = [
       'latitude': '40.64823721419626',
       'longitude': '-8.647542077590103',
     },
+    'closes': '12PM',
   },
   {
     'id': '0',
@@ -19,6 +20,7 @@ List<Map> restaurants = [
       'latitude': '40.63418681813457',
       'longitude': '-8.64836730215535',
     },
+    'closes': '10PM',
   },
   {
     'id': '0',
@@ -30,5 +32,6 @@ List<Map> restaurants = [
       'latitude': '40.63358670364584',
       'longitude': '-8.647931086711022',
     },
+    'closes': '11PM',
   },
 ];

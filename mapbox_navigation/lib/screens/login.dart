@@ -51,9 +51,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   fieldTitle("Username"),
-                  usernameField("Enter your username", idController, false),
+                  customField("Enter your username", idController, false, true),
                   fieldTitle("Password"),
-                  passwordField("Enter your password", passController, true),
+                  customField("Enter your password", passController, true, false),
                   TextButton(
                     onPressed: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const Splash()));
@@ -115,7 +115,7 @@ Widget fieldTitle(String title){
   ); //Container
 }
 
-Widget usernameField(String hint, TextEditingController controller, bool obscure){
+Widget customField(String hint, TextEditingController controller, bool obscure, bool isClearText){
   bool flag = false;
   return Container(
                   width: screenWidth,
@@ -135,7 +135,8 @@ Widget usernameField(String hint, TextEditingController controller, bool obscure
                     children: [
                       Container(
                         width: screenWidth / 6,
-                        child: Icon(Icons.person,
+                        child: Icon(
+                          isClearText ? Icons.person : Icons.lock,
                           color: primary,
                           size: screenWidth / 15,
                         ),//Icon
@@ -143,60 +144,14 @@ Widget usernameField(String hint, TextEditingController controller, bool obscure
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.only(right: screenWidth / 12),
-                          child: TextField(
-                          controller: controller,
-                          enableSuggestions: false,
-                          autocorrect: false,
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: screenHeight / 35,
-                            ),
-                            border: InputBorder.none,
-                            hintText: hint,
-                            hintStyle: TextStyle(color: Colors.black),
-                          ), //inputDecoration
-                          maxLines: 1,
-                          obscureText: obscure,
-                          style: TextStyle(
-                            color: Colors.black
-                          ),
-                      ),//TextFormField), //Expanded
-                        ), //Padding
-                      )
-                    ],
-                  ), //ROW
-                ); //Container
-}
-
-Widget passwordField(String hint, TextEditingController controller, bool obscure){
-  bool flag = false;
-  return Container(
-                  width: screenWidth,
-                  margin: EdgeInsets.only(bottom: 12),
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(12)),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 10,
-                        offset: Offset(2, 2),
-                      ) //BoxShadow
-                    ]
-                  ),//BoxDecoration
-                  child: Row(
-                    children: [
-                      Container(
-                        width: screenWidth / 6,
-                        child: Icon(Icons.lock,
-                          color: primary,
-                          size: screenWidth / 15,
-                        ),//Icon
-                      ), //Container
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(right: screenWidth / 12),
-                          child: TextField(
+                          child: TextFormField(
+                          validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                flag = true;
+                                return 'Please enter some text';
+                              }
+                              return null;
+                            },
                           controller: controller,
                           enableSuggestions: false,
                           autocorrect: false,

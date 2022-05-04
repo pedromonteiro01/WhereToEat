@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mapbox_navigation/constants/restaurants.dart';
+import 'package:mapbox_navigation/screens/detail_page.dart';
 
 import '../helpers/shared_prefs.dart';
 
@@ -20,9 +21,13 @@ class _RestaurantsTableState extends State<RestaurantsTable> {
 
   Widget cardButtons(IconData iconData, String label) {
     return Padding(
-      padding: const EdgeInsets.only(right: 10),
+      padding: const EdgeInsets.only(left: 50),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: () {
+          if (label == "Details"){
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => DetailPage(name: 'ola',)));
+          }
+        },
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.all(5),
           minimumSize: Size.zero,
@@ -38,11 +43,40 @@ class _RestaurantsTableState extends State<RestaurantsTable> {
     );
   }
 
+  List<Map> res = [];
+
+  @override
+  initState() {
+    res = restaurants;
+    super.initState();
+  }
+
+  // This function is called whenever the text field changes
+  void _runFilter(String enteredKeyword) {
+    List<Map> results = [];
+    if (enteredKeyword.isEmpty) {
+      // if the search field is empty or only contains white-space, we'll display all users
+      results = restaurants;
+    } else {
+      results = restaurants
+          .where((rest) =>
+              rest["name"].toLowerCase().contains(enteredKeyword.toLowerCase()))
+          .toList();
+      // we use the toLowerCase() method to make it case-insensitive
+    }
+
+    // Refresh the UI
+    setState(() {
+      res = results;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Restaurants Table'),
+        automaticallyImplyLeading: false,
       ),
       body: SafeArea(
           child: SingleChildScrollView(
@@ -53,11 +87,12 @@ class _RestaurantsTableState extends State<RestaurantsTable> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const CupertinoTextField(
+              CupertinoTextField(
                 prefix: Padding(
                   padding: EdgeInsets.only(left: 15),
                   child: Icon(Icons.search),
                 ),
+                onChanged: (value) => _runFilter(value),
                 padding: EdgeInsets.all(15),
                 placeholder: 'Search dish or restaurant name',
                 style: TextStyle(color: Colors.white),
@@ -71,9 +106,13 @@ class _RestaurantsTableState extends State<RestaurantsTable> {
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
-                itemCount: restaurants.length,
+                itemCount: res.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Card(
+                  return GestureDetector(
+                    onTap: (() {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => DetailPage(name: res[index]['name'],)));
+                    }),
+                    child: Card(
                     clipBehavior: Clip.antiAlias,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
@@ -84,7 +123,7 @@ class _RestaurantsTableState extends State<RestaurantsTable> {
                           height: 175,
                           width: 140,
                           fit: BoxFit.cover,
-                          imageUrl: restaurants[index]['image'],
+                          imageUrl: res[index]['image'],
                         ),
                         Expanded(
                           child: Container(
@@ -94,23 +133,25 @@ class _RestaurantsTableState extends State<RestaurantsTable> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  restaurants[index]['name'],
+                                  res[index]['name'],
                                   style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16),
                                 ),
-                                Text(restaurants[index]['items']),
-                                const Spacer(),
+                                Text(res[index]['items']),
+                                const SizedBox(height: 10,),
                                 const Text('Waiting time: 2hrs'),
                                 Text(
-                                  'Closes at 10PM',
+                                  'Open until ${res[index]['closes']}',
                                   style:
                                       TextStyle(color: Colors.redAccent[100]),
                                 ),
+                                SizedBox(height: 20,),
                                 Row(
                                   children: [
-                                    cardButtons(Icons.call, 'Call'),
-                                    cardButtons(Icons.location_on, 'Map'),
+                                    //cardButtons(Icons.details, 'Details'),
+                                    //cardButtons(Icons.location_on, 'Map'),
+                                    Text("Distance:"),
                                     const Spacer(),
                                     Text(
                                         '${(getDistanceFromSharedPrefs(index) / 1000).toStringAsFixed(2)}km'),
@@ -122,7 +163,8 @@ class _RestaurantsTableState extends State<RestaurantsTable> {
                         )
                       ],
                     ),
-                  );
+                  ),
+                );
                 },
               ),
             ],
