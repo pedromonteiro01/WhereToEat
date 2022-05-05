@@ -51,9 +51,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   fieldTitle("Username"),
-                  customField("Enter your username", idController, false, true),
+                  userField("Enter your username", idController, false),
                   fieldTitle("Password"),
-                  customField("Enter your password", passController, true, false),
+                  passField("Enter your password", passController, true),
                   TextButton(
                     onPressed: (){
                       Navigator.push(context, MaterialPageRoute(builder: (context) => const Splash()));
@@ -115,7 +115,7 @@ Widget fieldTitle(String title){
   ); //Container
 }
 
-Widget customField(String hint, TextEditingController controller, bool obscure, bool isClearText){
+Widget userField(String hint, TextEditingController controller, bool obscure){
   bool flag = false;
   return Container(
                   width: screenWidth,
@@ -135,8 +135,67 @@ Widget customField(String hint, TextEditingController controller, bool obscure, 
                     children: [
                       Container(
                         width: screenWidth / 6,
-                        child: Icon(
-                          isClearText ? Icons.person : Icons.lock,
+                        child: Icon(Icons.person,
+                          color: primary,
+                          size: screenWidth / 15,
+                        ),//Icon
+                      ), //Container
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(right: screenWidth / 12),
+                          child: TextFormField(
+                          validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                flag = true;
+                                return 'Please enter some text';
+                              }
+                              return null;
+                            },
+                          controller: controller,
+                          enableSuggestions: false,
+                          autocorrect: false,
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: screenHeight / 35,
+                            ),
+                            border: InputBorder.none,
+                            hintText: hint,
+                            hintStyle: TextStyle(color: Colors.black),
+                          ), //inputDecoration
+                          maxLines: 1,
+                          obscureText: obscure,
+                          style: TextStyle(
+                            color: Colors.black
+                          ),
+                      ),//TextFormField), //Expanded
+                        ), //Padding
+                      )
+                    ],
+                  ), //ROW
+                ); //Container
+}
+
+Widget passField(String hint, TextEditingController controller, bool obscure){
+  bool flag = false;
+  return Container(
+                  width: screenWidth,
+                  margin: EdgeInsets.only(bottom: 12),
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(12)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 10,
+                        offset: Offset(2, 2),
+                      ) //BoxShadow
+                    ]
+                  ),//BoxDecoration
+                  child: Row(
+                    children: [
+                      Container(
+                        width: screenWidth / 6,
+                        child: Icon(Icons.lock,
                           color: primary,
                           size: screenWidth / 15,
                         ),//Icon
