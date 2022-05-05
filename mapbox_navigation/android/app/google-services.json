@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "619443186378",
+    "project_id": "wheretoeat-de780",
+    "storage_bucket": "wheretoeat-de780.appspot.com",
+    "firebase_url": "https://wheretoeat-de780-default-rtdb.firebaseio.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619443186378:android:9bb7f7cc4e1ed0e08de233",
+        "android_client_info": {
+          "package_name": "com.example.mapbox_navigation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "619443186378-l8f22hrn0d5j2rrroftbo70r9qua7jqb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA92oBNjDYmw1GT4LHkRv-uRd5CGdoQpsw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "619443186378-l8f22hrn0d5j2rrroftbo70r9qua7jqb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

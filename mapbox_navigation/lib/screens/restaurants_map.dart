@@ -37,6 +37,8 @@ class _RestaurantsMapState extends State<RestaurantsMap> {
     super.initState();
     _initialCameraPosition = CameraPosition(target: latLng, zoom: 15);
 
+    print('TESTAR RESTAURANTES: $restaurants');
+
     // Calculate the distance and time from data in SharedPreferences
     for (int index = 0; index < restaurants.length; index++) {
       num distance = getDistanceFromSharedPrefs(index) / 1000;

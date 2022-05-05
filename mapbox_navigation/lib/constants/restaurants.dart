@@ -1,4 +1,31 @@
-List<Map> restaurants = [
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+List<Map> restaurants = [];
+
+void fun() async{
+  CollectionReference _collectionRef =FirebaseFirestore.instance.collection('restaurants');
+  restaurants = await getData(_collectionRef); 
+}
+
+
+Future<List<Map>> getData(_collectionRef) async {
+    // Get docs from collection reference
+    QuerySnapshot querySnapshot = await _collectionRef.get();
+    // Get data from docs and convert map to List
+    final allData = querySnapshot.docs.map((doc) => doc.data() as Map);
+    Map map = new Map();
+    for (var v in allData){
+      map = v;
+    }
+    List<Map> list = [];
+    for (final val in map.values){
+      list.add(val as Map);
+    }
+    print('OLA');
+    return list;
+}
+/*
+[
   {
     'id': '0',
     'name': 'Ramona',
@@ -35,3 +62,4 @@ List<Map> restaurants = [
     'closes': '11PM',
   },
 ];
+*/

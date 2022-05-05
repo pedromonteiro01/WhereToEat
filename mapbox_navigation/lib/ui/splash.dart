@@ -5,9 +5,13 @@ import 'package:location/location.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:mapbox_navigation/constants/restaurants.dart';
 import 'package:mapbox_navigation/main.dart';
+import 'package:mapbox_navigation/constants/restaurants.dart';
 
 import '../helpers/directions_handler.dart';
 import '../screens/home_management.dart';
+
+import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -17,11 +21,29 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
+  
   @override
   void initState() {
     super.initState();
+    fun();
+    final _dbRef = FirebaseDatabase.instance.ref();
+    var tableRef = _dbRef.child("SampleData");
+    myFunction(_dbRef);
     initializeLocationAndSave();
   }
+
+  void myFunction(_dbRef) async{
+    _dbRef.once().then((DatabaseEvent databaseEvent) {
+      print("Data " + databaseEvent.snapshot.value.toString());
+      String s = '[' + databaseEvent.snapshot.value.toString() + ']';
+      List<dynamic> map = jsonDecode(s);
+      List m = map;
+      print('LENGTH ' + m.length.toString());
+      for (int i = 0; i< m.length; i++){
+        print('FODASE '+ map[i].toString());
+      }
+    });
+}
 
   void initializeLocationAndSave() async {
     // Ensure all permissions are collected for Locations

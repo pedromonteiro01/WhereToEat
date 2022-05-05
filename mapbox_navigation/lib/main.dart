@@ -4,6 +4,8 @@ import 'package:mapbox_navigation/screens/home_management.dart';
 import 'package:mapbox_navigation/screens/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+
 import 'ui/splash.dart';
 
 late SharedPreferences sharedPreferences;
@@ -12,6 +14,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   sharedPreferences = await SharedPreferences.getInstance();
   await dotenv.load(fileName: "assets/config/.env");
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
