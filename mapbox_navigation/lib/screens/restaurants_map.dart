@@ -134,7 +134,7 @@ class _RestaurantsMapState extends State<RestaurantsMap> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Restaurants Map'),
+        title: const Text('Mapa de Restaurantes'),
         automaticallyImplyLeading: false,
       ),
       body: SafeArea(

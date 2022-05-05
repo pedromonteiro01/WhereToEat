@@ -46,9 +46,9 @@ class _HomeManagementState extends State<HomeManagement> {
         currentIndex: _index,
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.map), label: 'Restaurant Maps'),
+              icon: Icon(Icons.map), label: 'Localizações'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.fastfood), label: 'Restaurants Table'),
+              icon: Icon(Icons.fastfood), label: 'Restaurantes'),
           BottomNavigationBarItem(
               icon: Icon(Icons.qr_code), label: 'QR Codes'),
         ],

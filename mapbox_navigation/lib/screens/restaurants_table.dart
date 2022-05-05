@@ -75,7 +75,7 @@ class _RestaurantsTableState extends State<RestaurantsTable> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Restaurants Table'),
+        title: const Text('Tabela de Restaurantes'),
         automaticallyImplyLeading: false,
       ),
       body: SafeArea(
@@ -94,7 +94,7 @@ class _RestaurantsTableState extends State<RestaurantsTable> {
                 ),
                 onChanged: (value) => _runFilter(value),
                 padding: EdgeInsets.all(15),
-                placeholder: 'Search dish or restaurant name',
+                placeholder: 'Procurar por restaurante',
                 style: TextStyle(color: Colors.white),
                 decoration: BoxDecoration(
                   color: Colors.black54,
@@ -140,9 +140,8 @@ class _RestaurantsTableState extends State<RestaurantsTable> {
                                 ),
                                 Text(res[index]['items']),
                                 const SizedBox(height: 10,),
-                                const Text('Waiting time: 2hrs'),
                                 Text(
-                                  'Open until ${res[index]['closes']}',
+                                  'Aberto até ${res[index]['closes']}',
                                   style:
                                       TextStyle(color: Colors.redAccent[100]),
                                 ),
@@ -151,7 +150,7 @@ class _RestaurantsTableState extends State<RestaurantsTable> {
                                   children: [
                                     //cardButtons(Icons.details, 'Details'),
                                     //cardButtons(Icons.location_on, 'Map'),
-                                    Text("Distance:"),
+                                    Text("Distancia até ao local:"),
                                     const Spacer(),
                                     Text(
                                         '${(getDistanceFromSharedPrefs(index) / 1000).toStringAsFixed(2)}km'),

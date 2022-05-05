@@ -82,7 +82,7 @@ class _DetailPageState extends State<DetailPage>{
                         SizedBox(height: 15,),
                         Row(
                           children: const [
-                            Text('Description', style: TextStyle(
+                            Text('Descrição', style: TextStyle(
                               fontFamily: 'Avenir',
                               color: Colors.grey,
                               fontSize: 15,
@@ -92,13 +92,12 @@ class _DetailPageState extends State<DetailPage>{
                           ],
                         ),
                         Row(
-                          children: const [
-                            Flexible( 
-                              child: Text("A cappuccino is a coffee-based drink made primarily from espresso and milk." ,softWrap: true, style: TextStyle(
-                                fontFamily: 'Avenir',
-                                fontSize: 15, 
-                                color: Colors.white,
-                                ),
+                          children: [
+                            Flexible(
+                              child: Text('${res[0]['description']}',
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 5,
+                              style: TextStyle(color: Colors.white, fontSize: 15),
                               ),
                             ),
                           ],
@@ -106,7 +105,7 @@ class _DetailPageState extends State<DetailPage>{
                         SizedBox(height: 15,),
                         Row(
                           children: const [
-                            Text('Location:', style: TextStyle(
+                            Text('Localização:', style: TextStyle(
                               fontFamily: 'Avenir',
                               color: Colors.grey,
                               fontSize: 15,
@@ -116,7 +115,7 @@ class _DetailPageState extends State<DetailPage>{
                           ],
                         ),
                         Text('Lat: ${res[0]['coordinates']['latitude']}   Long: ${res[0]['coordinates']['longitude']}', style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),),
-                        Text('Rua das Abelhas', style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),),
+                        //Text('Rua das Abelhas', style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),),
                         SizedBox(height: 47,),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -126,12 +125,12 @@ class _DetailPageState extends State<DetailPage>{
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("Price", style: TextStyle(color: Color(0xff919296), fontWeight: FontWeight.bold),),
+                                    Text("Preço", style: TextStyle(color: Color(0xff919296), fontWeight: FontWeight.bold),),
                                     SizedBox(height: 10,),
                                     Row(
                                       children: [
-                                        Text(r'€', style: TextStyle(color: Color(0xffd17842), fontSize: 21),),
-                                        Text("4.20", style: TextStyle(color: Colors.white, fontSize: 21),)
+                                        //Text(r'€', style: TextStyle(color: Color(0xffd17842), fontSize: 21),),
+                                        Text('${res[0]['price']}', style: TextStyle(color: Colors.white, fontSize: 21),)
                                       ],
                                     ),
                                   ],

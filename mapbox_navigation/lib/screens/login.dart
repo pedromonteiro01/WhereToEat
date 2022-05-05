@@ -3,6 +3,8 @@ import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:mapbox_navigation/screens/home_management.dart';
 import 'package:mapbox_navigation/screens/register.dart';
 import 'package:mapbox_navigation/ui/splash.dart';
+import 'package:mapbox_navigation/constants/restaurants.dart';
+import 'dart:io';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({ Key? key }) : super(key: key);
@@ -14,16 +16,29 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController idController = TextEditingController();
   TextEditingController passController = TextEditingController();
+  TextEditingController _controller = TextEditingController();
   double screenHeight = 0;
   double screenWidth = 0;
 
   Color primary = const Color(0xFF3D82AE);
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    function();
+  }
+
+  void function(){
+    getUsers();
+    sleep(Duration(seconds: 1));
+  }
+
+  @override
   Widget build(BuildContext context) {
     //final bool isKeyboardVisible = KeyboardVisibilityProvider.isKeyboardVisible(context);
     screenWidth = MediaQuery.of(context).size.width;
-    screenHeight = MediaQuery.of(context).size.height;
+    screenHeight = MediaQuery.of(context).size.height-48;
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
@@ -54,9 +69,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   userField("Enter your username", idController, false),
                   fieldTitle("Password"),
                   passField("Enter your password", passController, true),
+                  TextField(readOnly: true, controller: _controller,style: TextStyle(color: Colors.red, fontSize: 15), textAlign: TextAlign.center,),
                   TextButton(
                     onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const Splash()));
+                      for (int i=0; i<users.length; i++){
+                        if(idController.text == users[i]['username'] && passController.text == users[i]['password']){
+                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const Splash()), (Route<dynamic> route) => false);
+                        }
+                      }
+                      _controller.text="Wrong credentials!";
                     },
                     child: Container(
                       height: 60,

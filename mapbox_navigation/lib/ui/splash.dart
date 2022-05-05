@@ -9,6 +9,7 @@ import 'package:mapbox_navigation/constants/restaurants.dart';
 
 import '../helpers/directions_handler.dart';
 import '../screens/home_management.dart';
+import 'dart:io';
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -25,7 +26,6 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    fun();
     final _dbRef = FirebaseDatabase.instance.ref();
     var tableRef = _dbRef.child("SampleData");
     myFunction(_dbRef);
@@ -50,6 +50,9 @@ class _SplashState extends State<Splash> {
     Location _location = Location();
     bool? _serviceEnabled;
     PermissionStatus? _permissionGranted;
+
+    getRes();
+    sleep(Duration(seconds: 1));
     
     _serviceEnabled = await _location.serviceEnabled();
     if (!_serviceEnabled) {

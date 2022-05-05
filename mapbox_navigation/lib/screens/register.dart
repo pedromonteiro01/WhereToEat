@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mapbox_navigation/constants/restaurants.dart';
+import 'package:mapbox_navigation/ui/splash.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({ Key? key }) : super(key: key);
@@ -18,6 +21,17 @@ class _RegisterPageState extends State<RegisterPage> {
   double screenWidth = 0;
 
   Color primary = const Color(0xFF3D82AE);
+
+  Future<void> function(username, password, email, phone)async{
+    String uid = users.length.toString();
+    var _collectionRef =FirebaseFirestore.instance.collection('users').doc('map').update({uid:{
+      'username': username,
+      'password': password,
+      'email': email,
+      'phone': phone,
+    }});
+    return;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +66,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   confirmPassField("Confirm your password", confirmPassController, true),
                   TextButton(
                     onPressed: (){
-                      //Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+                      if(idController.text.length !=0 && passController.text.length!=0 && emailController.text.length!=0 && phoneController.text.length!=0){
+                        function(idController.text, passController.text, emailController.text, phoneController.text);
+                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const Splash()), (Route<dynamic> route) => false);
+                      }
                     },
                     child: Container(
                       height: 60,

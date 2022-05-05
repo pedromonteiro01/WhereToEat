@@ -1,10 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 List<Map> restaurants = [];
+List<Map> users = [];
 
-void fun() async{
+void getRes() async{
   CollectionReference _collectionRef =FirebaseFirestore.instance.collection('restaurants');
-  restaurants = await getData(_collectionRef); 
+  restaurants= await getData(_collectionRef); 
+  print('RES: $restaurants');
+}
+
+void getUsers() async{
+  CollectionReference _collectionRef2 =FirebaseFirestore.instance.collection('users');
+  users= await getData(_collectionRef2); 
+  print('USERS: $users');
 }
 
 

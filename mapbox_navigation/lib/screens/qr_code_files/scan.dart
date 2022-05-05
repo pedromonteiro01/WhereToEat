@@ -10,7 +10,7 @@ class ScanPage extends StatefulWidget {
 }
 
 class _ScanPageState extends State<ScanPage> {
-  String qrCodeResult = "Not Yet Scanned";
+  String qrCodeResult = "Nada ainda foi scanneado";
   bool bol = false;
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class _ScanPageState extends State<ScanPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Text(
-              "Result",
+              "Resultado",
               style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
@@ -59,7 +59,7 @@ class _ScanPageState extends State<ScanPage> {
 
               },
               child: Text(
-                "Open Scanner",
+                "Abrir Scanner",
                 style:
                     TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
               ),
@@ -70,15 +70,15 @@ class _ScanPageState extends State<ScanPage> {
                 if (await canLaunch(qrCodeResult)) {
                   await launch(qrCodeResult);
                 } else {
-                  throw 'Could not launch $qrCodeResult';
+                  throw 'Não foi possível abrir $qrCodeResult';
                 }
               }, child: Text(
-                "Go to URL",
+                "Ir par ao endereço",
                 style:
                     TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),
               ),
             ) : Center(child: Text(
-              "No results yet!", textAlign: TextAlign.center,
+              "Ainda nenhum resultado!", textAlign: TextAlign.center,
             ),),
           ],
         ),
